@@ -1,0 +1,408 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>NOVA COIN ULTRA+</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#080914;color:white;font-family:Arial,sans-serif}
+.app{max-width:480px;margin:auto;padding:18px 16px 100px}
+header{display:flex;justify-content:space-between;align-items:center;padding:15px 0 25px}
+.logo{font-size:22px;font-weight:900;letter-spacing:2px}
+.logo span{color:#a56aff}
+.badge{background:#211938;color:#b99aff;padding:8px 12px;border-radius:20px;font-size:11px}
+.card{background:linear-gradient(145deg,#19182c,#111120);border:1px solid #2c2842;border-radius:22px;padding:20px;margin-bottom:15px}
+.label{color:#9996b4;font-size:13px}
+.balance{font-size:36px;font-weight:800;margin:12px 0}
+.balance small{font-size:15px;color:#b99aff}
+.coinbox{text-align:center;padding:25px 0}
+.coin{width:155px;height:155px;border-radius:50%;margin:auto;background:radial-gradient(circle at 30% 30%,#ead0ff,#a263ff 40%,#5414a4 75%,#26094e);box-shadow:0 0 30px #9049ff,inset 0 0 20px #d6a5ff;display:flex;align-items:center;justify-content:center;font-size:65px;font-weight:900}
+.activecoin{animation:glow 1.2s infinite alternate}
+@keyframes glow{from{box-shadow:0 0 20px #8e48ff}to{box-shadow:0 0 50px #c18aff}}
+.progress{height:9px;background:#29243a;border-radius:10px;overflow:hidden}
+.bar{height:100%;width:0;background:linear-gradient(90deg,#7734ff,#c49aff);transition:width .3s}
+.timer{margin:12px 0;color:#bba5ff;font-size:13px}
+.btn{width:100%;border:0;border-radius:15px;padding:15px;font-weight:bold;font-size:15px;color:white;background:linear-gradient(90deg,#7437ff,#a65cff);margin-top:12px;cursor:pointer}
+.btn2{background:#211d35;border:1px solid #39304f}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.stat{padding:17px;background:#171629;border-radius:17px}
+.stat strong{display:block;font-size:22px;margin-top:8px}
+.section-title{font-size:17px;font-weight:bold;margin:20px 0 14px}
+.row{display:flex;justify-content:space-between;align-items:center;padding:14px 0;border-bottom:1px solid #27243a;gap:10px}
+.row:last-child{border-bottom:0}
+.small{font-size:12px;color:#9996b4;margin-top:5px}
+.reward{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.reward strong{color:#c2a4ff}
+.page{display:none}
+.page.active{display:block}
+.tabs{position:fixed;bottom:0;left:0;right:0;background:#111120;border-top:1px solid #292640;z-index:5}
+.tabs-inner{max-width:480px;margin:auto;display:flex;overflow-x:auto}
+.tab{flex:1;min-width:62px;padding:13px 2px;text-align:center;color:#9996b4;font-size:11px;cursor:pointer}
+.tab.active{color:#b99aff}
+.tab div{font-size:20px;margin-bottom:5px}
+.task{background:#171629;border-radius:16px;padding:16px;margin-bottom:12px}
+.task button{padding:10px;border:0;border-radius:10px;background:#7737ff;color:white;margin-top:10px;width:100%}
+.toast{position:fixed;top:20px;left:50%;transform:translateX(-50%);background:#28213e;padding:14px 20px;border-radius:12px;display:none;z-index:10}
+.avatar{width:85px;height:85px;border-radius:50%;background:linear-gradient(135deg,#6f31ff,#c28aff);display:flex;align-items:center;justify-content:center;font-size:36px;margin:0 auto 15px}
+input{background:#211d35;border:1px solid #39304f;color:white;border-radius:10px;padding:12px;width:100%;margin-top:10px}
+#splash{position:fixed;inset:0;background:radial-gradient(circle at center,#25104a,#080914 70%);z-index:9999;display:flex;align-items:center;justify-content:center;flex-direction:column;transition:opacity .7s}
+.splashCoin{width:140px;height:140px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:70px;font-weight:900;background:radial-gradient(circle at 30% 30%,#ead0ff,#a263ff 40%,#5414a4 75%,#26094e);box-shadow:0 0 50px #974bff;animation:splashAnim 1.5s infinite alternate}
+@keyframes splashAnim{from{transform:scale(.9)}to{transform:scale(1.06)}}
+.splashTitle{font-size:30px;font-weight:900;letter-spacing:5px;margin-top:28px}
+.splashTitle span{color:#b58aff}
+.splashSub{color:#a29ab9;font-size:12px;letter-spacing:3px;margin-top:12px}
+.loading{width:160px;height:5px;background:#29243a;border-radius:10px;margin-top:35px;overflow:hidden}
+.loadingBar{height:100%;width:0;background:linear-gradient(90deg,#7437ff,#d0a5ff);animation:load 2.5s linear forwards}
+@keyframes load{to{width:100%}}
+</style>
+</head>
+<body>
+
+<div id="splash">
+<div class="splashCoin">N</div>
+<div class="splashTitle">NOVA <span>COIN</span></div>
+<div class="splashSub">ULTRA+ EXPERIENCE</div>
+<div class="loading"><div class="loadingBar"></div></div>
+</div>
+
+<div class="app">
+<header>
+<div class="logo">✦ NOVA <span>COIN</span></div>
+<div class="badge">● DEMO</div>
+</header>
+
+<div id="home" class="page active">
+<div class="card">
+<div class="label">YOUR BALANCE</div>
+<div class="balance"><span id="balance">0</span> <small>NOVA</small></div>
+<div class="label">Virtual demo points</div>
+<div class="coinbox">
+<div class="coin" id="coin">N</div>
+<div class="small" id="status" style="margin-top:18px">Mining stopped</div>
+</div>
+<div class="progress"><div class="bar" id="bar"></div></div>
+<div class="timer" id="timer">0 / 5 seconds</div>
+<button class="btn" id="mineBtn" onclick="toggleMining()">▶ START MINING</button>
+</div>
+
+<div class="grid">
+<div class="stat"><div class="label">TOTAL EARNED</div><strong id="earned">0</strong><div class="small">NOVA</div></div>
+<div class="stat"><div class="label">LEVEL</div><strong id="level">Bronze</strong><div class="small">Demo level</div></div>
+</div>
+
+<div class="section-title">🎁 Daily reward</div>
+<div class="card reward">
+<div><strong>+50 NOVA</strong><div class="small">Daily virtual bonus</div></div>
+<button class="btn" style="width:auto;margin:0" onclick="claimBonus()">CLAIM</button>
+</div>
+
+<div class="section-title">🏅 Level progress</div>
+<div class="card">
+<div class="row"><span id="levelText">Bronze</span><strong id="levelProgressText">0 / 200</strong></div>
+<div class="progress"><div class="bar" id="levelBar"></div></div>
+<div class="small" style="margin-top:10px">Progress based on demo points</div>
+</div>
+
+<div class="section-title">📊 Statistics</div>
+<div class="card">
+<div class="row"><span class="label">Mining sessions</span><strong id="sessions">0</strong></div>
+<div class="row"><span class="label">Bonus earned</span><strong id="bonusTotal">0</strong></div>
+<div class="row"><span class="label">Completed tasks</span><strong id="taskCount">0</strong></div>
+</div>
+
+<div class="section-title">📜 Activity</div>
+<div class="card" id="history"></div>
+</div>
+
+<div id="tasks" class="page">
+<div class="section-title">🎯 Tasks</div>
+<div class="card"><div class="label">Complete demo tasks to earn points</div></div>
+<div id="tasklist"></div>
+</div>
+
+<div id="friends" class="page">
+<div class="section-title">👥 Friends</div>
+<div class="card">
+<div class="coinbox" style="padding:10px">
+<div style="font-size:45px">👥</div>
+<h2 style="margin:15px">Invite friends</h2>
+<div class="label">Demo code</div>
+<div class="balance" style="font-size:25px">NOVA2026</div>
+</div>
+<button class="btn" onclick="copyCode()">COPY CODE</button>
+<div class="small" style="text-align:center;margin-top:12px">Demo only</div>
+</div>
+<div class="card">
+<div class="row"><span>Friends</span><strong>0</strong></div>
+<div class="row"><span>Referral points</span><strong>0</strong></div>
+</div>
+</div>
+
+<div id="ranks" class="page">
+<div class="section-title">🏆 Leaderboard</div>
+<div class="card">
+<div class="row"><span>🥇 Nova Master</span><strong>8,500</strong></div>
+<div class="row"><span>🥈 Purple Star</span><strong>6,200</strong></div>
+<div class="row"><span>🥉 Moon User</span><strong>4,100</strong></div>
+<div class="row"><span>4. Demo Player</span><strong>2,700</strong></div>
+<div class="small">Fictional demo players</div>
+</div>
+</div>
+
+<div id="wallet" class="page">
+<div class="section-title">◈ Wallet</div>
+<div class="card">
+<div class="label">Virtual balance</div>
+<div class="balance"><span id="walletBalance">0</span> <small>NOVA</small></div>
+<div class="small">Local demo points only</div>
+</div>
+<div class="section-title">📜 History</div>
+<div class="card" id="walletHistory"></div>
+</div>
+
+<div id="profile" class="page">
+<div class="section-title">👤 Profile</div>
+<div class="card" style="text-align:center">
+<div class="avatar">👤</div>
+<h2 id="profileName">NOVA User</h2>
+<div class="small">NOVA member</div>
+<div class="badge" style="display:inline-block;margin-top:15px" id="profileLevel">Bronze</div>
+</div>
+<div class="card">
+<div class="row"><span>Total points</span><strong id="profileBalance">0</strong></div>
+<div class="row"><span>Earned</span><strong id="profileEarned">0</strong></div>
+<div class="row"><span>Tasks</span><strong id="profileTasks">0</strong></div>
+<div class="row"><span>Mining sessions</span><strong id="profileSessions">0</strong></div>
+</div>
+<div class="card">
+<div class="label">Change demo username</div>
+<input id="nameInput" placeholder="Enter username">
+<button class="btn" onclick="changeName()">SAVE NAME</button>
+</div>
+</div>
+
+<div id="settings" class="page">
+<div class="section-title">⚙️ Settings</div>
+<div class="card">
+<div class="row"><span>Sound effects</span><button class="btn" style="width:auto;margin:0" onclick="toggleSound()" id="soundBtn">OFF</button></div>
+<div class="row"><span>Theme</span><strong>Dark / Purple</strong></div>
+<div class="row"><span>Version</span><strong>ULTRA+ 1.2</strong></div>
+</div>
+<div class="card">
+<h3>About NOVA</h3>
+<div class="small" style="line-height:1.7;margin-top:10px">NOVA COIN ULTRA+ is a virtual mining demo. Points are stored locally in this browser. They have no monetary value.</div>
+</div>
+<div class="card">
+<h3>Reset demo</h3>
+<div class="small" style="margin-top:10px">Reset your demo balance, tasks and activity.</div>
+<button class="btn btn2" onclick="resetDemo()">RESET DEMO DATA</button>
+</div>
+</div>
+</div>
+
+<div class="tabs">
+<div class="tabs-inner">
+<div class="tab active" onclick="showPage('home',this)"><div>⌂</div>Home</div>
+<div class="tab" onclick="showPage('tasks',this)"><div>🎯</div>Tasks</div>
+<div class="tab" onclick="showPage('friends',this)"><div>♧</div>Friends</div>
+<div class="tab" onclick="showPage('ranks',this)"><div>🏆</div>Ranks</div>
+<div class="tab" onclick="showPage('wallet',this)"><div>◈</div>Wallet</div>
+<div class="tab" onclick="showPage('profile',this)"><div>👤</div>Profile</div>
+<div class="tab" onclick="showPage('settings',this)"><div>⚙️</div>Settings</div>
+</div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const KEY="novaUltraPlus";
+let data;
+try{
+data=JSON.parse(localStorage.getItem(KEY))||{
+balance:0,earned:0,lastBonus:0,history:[],
+tasks:[],sessions:0,bonusTotal:0,name:"NOVA User",sound:false
+};
+}catch(e){
+data={balance:0,earned:0,lastBonus:0,history:[],tasks:[],sessions:0,bonusTotal:0,name:"NOVA User",sound:false};
+}
+
+let mining=false,seconds=0;
+
+const taskItems=[
+{id:1,title:"Daily login",reward:20},
+{id:2,title:"Explore NOVA",reward:15},
+{id:3,title:"Visit demo wallet",reward:10},
+{id:4,title:"Check leaderboard",reward:10},
+{id:5,title:"Visit profile",reward:15}
+];
+
+function save(){localStorage.setItem(KEY,JSON.stringify(data))}
+function fmt(n){return Number(n).toLocaleString("en-US")}
+
+function levelName(){
+if(data.earned>=1000)return "Diamond";
+if(data.earned>=500)return "Gold";
+if(data.earned>=200)return "Silver";
+return "Bronze";
+}
+
+function nextLevel(){
+if(data.earned<200)return 200;
+if(data.earned<500)return 500;
+if(data.earned<1000)return 1000;
+return 1000;
+}
+
+function render(){
+document.getElementById("balance").textContent=fmt(data.balance);
+document.getElementById("walletBalance").textContent=fmt(data.balance);
+document.getElementById("earned").textContent=fmt(data.earned);
+document.getElementById("level").textContent=levelName();
+document.getElementById("sessions").textContent=fmt(data.sessions);
+document.getElementById("bonusTotal").textContent=fmt(data.bonusTotal);
+document.getElementById("taskCount").textContent=data.tasks.length;
+document.getElementById("profileName").textContent=data.name;
+document.getElementById("profileLevel").textContent=levelName();
+document.getElementById("profileBalance").textContent=fmt(data.balance);
+document.getElementById("profileEarned").textContent=fmt(data.earned);
+document.getElementById("profileTasks").textContent=data.tasks.length;
+document.getElementById("profileSessions").textContent=data.sessions;
+document.getElementById("levelText").textContent=levelName();
+
+let target=nextLevel();
+let previous=data.earned<200?0:data.earned<500?200:500;
+let progress=data.earned>=1000?100:Math.max(0,Math.min(100,((data.earned-previous)/(target-previous))*100));
+document.getElementById("levelProgressText").textContent=fmt(data.earned)+" / "+fmt(target);
+document.getElementById("levelBar").style.width=progress+"%";
+renderHistory();
+renderTasks();
+document.getElementById("soundBtn").textContent=data.sound?"ON":"OFF";
+}
+
+function add(amount,title){
+data.balance+=amount;
+data.earned+=amount;
+data.history.unshift({title:title,amount:amount,date:new Date().toLocaleTimeString()});
+data.history=data.history.slice(0,30);
+save();render();
+}
+
+function renderHistory(){
+let html=data.history.length?data.history.map(x=>
+`<div class="row"><div><strong>${x.title}</strong><div class="small">${x.date}</div></div><strong style="color:#b99aff">+${fmt(x.amount)}</strong></div>`
+).join(""):'<div class="small">No activity yet</div>';
+document.getElementById("history").innerHTML=html;
+document.getElementById("walletHistory").innerHTML=html;
+}
+
+function toggleMining(){
+mining=!mining;
+if(mining){data.sessions++;save();}
+document.getElementById("mineBtn").textContent=mining?"■ STOP MINING":"▶ START MINING";
+document.getElementById("status").textContent=mining?"Mining is active...":"Mining stopped";
+document.getElementById("coin").classList.toggle("activecoin",mining);
+}
+
+function claimBonus(){
+let now=Date.now();
+if(now-data.lastBonus<86400000){
+toast("Daily reward already claimed!");
+return;
+}
+data.lastBonus=now;
+data.bonusTotal+=50;
+add(50,"Daily bonus");
+toast("+50 NOVA!");
+}
+
+function renderTasks(){
+let html=taskItems.map(t=>{
+let done=data.tasks.includes(t.id);
+return `<div class="task"><strong>${t.title}</strong><div class="small">Reward: ${t.reward} NOVA</div><button ${done?"disabled":""} onclick="completeTask(${t.id})">${done?"✓ COMPLETED":"CLAIM REWARD"}</button></div>`;
+}).join("");
+document.getElementById("tasklist").innerHTML=html;
+}
+
+function completeTask(id){
+if(data.tasks.includes(id))return;
+let t=taskItems.find(x=>x.id===id);
+data.tasks.push(id);
+add(t.reward,t.title);
+toast("Task completed!");
+}
+
+function showPage(id,el){
+mining=false;
+document.getElementById("mineBtn").textContent="▶ START MINING";
+document.getElementById("status").textContent="Mining stopped";
+document.getElementById("coin").classList.remove("activecoin");
+document.querySelectorAll(".page").forEach(x=>x.classList.remove("active"));
+document.getElementById(id).classList.add("active");
+document.querySelectorAll(".tab").forEach(x=>x.classList.remove("active"));
+el.classList.add("active");
+}
+
+function copyCode(){
+if(navigator.clipboard){
+navigator.clipboard.writeText("NOVA2026").then(()=>toast("Code copied!")).catch(()=>toast("NOVA2026"));
+}else toast("NOVA2026");
+}
+
+function changeName(){
+let name=document.getElementById("nameInput").value.trim();
+if(!name)return toast("Enter a username");
+data.name=name.slice(0,24);
+save();render();
+document.getElementById("nameInput").value="";
+toast("Name saved!");
+}
+
+function toggleSound(){
+data.sound=!data.sound;
+save();render();
+toast(data.sound?"Sound enabled":"Sound disabled");
+}
+
+function resetDemo(){
+if(!confirm("Reset all demo data?"))return;
+mining=false;
+seconds=0;
+data={balance:0,earned:0,lastBonus:0,history:[],tasks:[],sessions:0,bonusTotal:0,name:"NOVA User",sound:false};
+save();render();
+document.getElementById("bar").style.width="0%";
+document.getElementById("timer").textContent="0 / 5 seconds";
+document.getElementById("mineBtn").textContent="▶ START MINING";
+document.getElementById("status").textContent="Mining stopped";
+document.getElementById("coin").classList.remove("activecoin");
+toast("Demo reset!");
+}
+
+function toast(msg){
+let t=document.getElementById("toast");
+t.textContent=msg;t.style.display="block";
+setTimeout(()=>t.style.display="none",1800);
+}
+
+setInterval(()=>{
+if(!mining)return;
+seconds++;
+let progress=seconds%5;
+document.getElementById("bar").style.width=(progress/5*100)+"%";
+document.getElementById("timer").textContent=progress+" / 5 seconds";
+if(seconds%5===0)add(1,"Virtual mining");
+},1000);
+
+render();
+
+window.addEventListener("load",()=>{
+setTimeout(()=>{
+let s=document.getElementById("splash");
+s.style.opacity="0";
+setTimeout(()=>s.style.display="none",700);
+},2600);
+});
+</script>
+</body>
+</html>
